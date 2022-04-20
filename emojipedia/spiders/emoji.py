@@ -33,21 +33,21 @@ class EmojiSpider(scrapy.Spider):
             )
 
     def parse_emoji(self, response):
-        character = response.css('.copy-paste input::attr(value)').get()
+        emoji = response.css('.copy-paste input::attr(value)').get()
         
         aliases = response.css('.aliases li ::text').getall()[1::2]
         aliases = [a.strip() for a in aliases]
 
         shortcuts = defaultdict(list)
         for item in response.css('.shortcodes li'):
-            shortcut = response.css('span::text').get().strip()
+            shortcut = item.css('span::text').get().strip()
             for key in item.css('a::text').getall():
                 shortcuts[key.strip()].append(shortcut)
 
         yield {
             'name': response.meta['name'],
             'category': response.meta['category'],
-            'character': character,
+            'emoji': emoji,
             'aliases': aliases,
             'shortcuts': shortcuts,
         }

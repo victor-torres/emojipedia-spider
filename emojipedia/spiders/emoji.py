@@ -5,7 +5,7 @@ import scrapy
 class EmojiSpider(scrapy.Spider):
     name = 'emoji'
     allowed_domains = ['emojipedia.org']
-    start_urls = ['http://emojipedia.org/']
+    start_urls = ['http://emojipedia.org/about']
 
     def parse(self, response):
         for item in response.css('#nav-categories li'):
